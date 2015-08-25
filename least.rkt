@@ -36,13 +36,16 @@
     (fresh (a b)
       (== `(Least as many ,a ,b) phi)
       (conde
+        ;; Card-Trans 
         ((fresh (c r1 r2)
           (== `((,r1 ,r2) => ,phi) proof)
           (L `(Least as many ,a ,c) gamma r1)
           (L `(Least as many ,c ,b) gamma r2)))
+        ;; Subset-Size
         ((fresh (r1)
           (== `((,r1) => ,phi) proof)
           (L `(All ,b are ,a) gamma r1)))
+        ;; No Rule Found
         ((fresh (r1)
           (== `((,r1) => ,phi) proof)
           (L `(No ,b are ,b) gamma r1)))))))
@@ -52,21 +55,26 @@
     (fresh (a b)
       (== `(All ,a are ,b) phi)
       (conde
+        ;; Axiom
         ((== a b) (== phi proof))
+        ;; Card-Mix
         ((fresh (r1 r2)
            (== `((,r1 ,r2) => ,phi) proof)
            (L `(All ,b are ,a) gamma r1)
            (L `(Least as many ,b ,a) gamma r2)))
+        ;; Barbara
         ((fresh (c r1 r2)
            (== `((,r1 ,r2) => ,phi) proof)
            (=/= a c)
            (=/= b c)
            (L `(All ,a are ,c) gamma r1)
            (L `(All ,c are ,b) gamma r2)))
+        ;; No Rule Found
         ((fresh (p q r1 r2)
            (== `((,r1 ,r2) => ,phi) proof)
            (L `(Some ,p are ,q) gamma r1)
            (L `(No ,p are ,q) gamma r2)))
+        ;; Zero || One (?)
         ((fresh (r1)
            (== `((,r1) => ,phi) proof)
            (L `(No ,a are ,a) gamma r1)))))))
@@ -76,22 +84,27 @@
     (fresh (a b)
       (== `(Some ,a are ,b) phi)
       (conde
+        ;; Card-E
         [(== a b)
          (fresh (c r1 r2)
            (== `((,r1 ,r2) => ,phi) proof)
            (L `(Some ,c are ,c) gamma r1)
            (L `(Least as many ,a ,c) gamma r2))]
+        ;; Some
         [(== a b)
          (fresh (r1 c)
            (== `((,r1) => ,phi) proof)
            (L `(Some ,a are ,c) gamma r1))]
+        ;; Conversion
         [(fresh (r1)
            (== `((,r1) => ,phi) proof)
            (L `(Some ,b are ,a) gamma r1))]
+        ;; Darii
         [(fresh (c r1 r2)
            (== `((,r1 ,r2) => ,phi) proof)
            (L `(All ,c are ,b) gamma r1)
            (L `(Some ,a are ,c) gamma r2))]
+        ;; No Rule Found
         [(fresh (p q r1 r2)
            (== `((,r1 ,r2) => ,phi) proof)
            (L `(Some ,p are ,q) gamma r1)
