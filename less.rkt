@@ -1,6 +1,7 @@
 #lang racket
 (require "mk.rkt")
 (require "matche.rkt")
+(provide (combine-out (all-defined-out) (all-from-out "mk.rkt")))
 
 (define (membero x ls)
   (fresh (a d)
