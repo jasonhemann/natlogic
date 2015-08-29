@@ -51,8 +51,8 @@
 (define (logic φ Γ proof)
   (matche φ
     [(∀ ,a ,a) (== a a)] ;; Axiom
-    [(∀, n, q)
-     (double-prim-term logic proof φ Γ `(∀ ,n ,p) `(∀ ,p ,q) p)] ;; Barbara
+    [(∀, n, q) ;; Barbara
+     (double-prim-term logic proof φ Γ `(∀ ,n ,p) `(∀ ,p ,q) p)] 
     [(∃ ,p ,p) ;; ∃
      (single-prim-term logic proof φ Γ `(∃ ,p ,q) q)] 
     [(∃ ,p ,q) ;; Conversion
