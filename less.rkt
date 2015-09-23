@@ -50,7 +50,7 @@
 
 (define (logic φ Γ proof)
   (matche φ
-    [(∀ ,a ,a) (== a a)] ;; Axiom
+    [(∀ ,a ,a) (== proof `(∀ ,a ,a))] ;; Axiom
     [(∀, n, q) ;; Barbara
      (double-prim-term logic proof φ Γ `(∀ ,n ,p) `(∀ ,p ,q) p)] 
     [(∃ ,p ,p) ;; ∃
@@ -75,7 +75,7 @@
      (double-prim-term logic proof φ Γ `(∃≥ ,n ,p) `(∃> ,p ,q) p)]
     [,x (membero x Γ) (== proof `(,x in-Γ))]  ;; Lookup
     [,x ;; X
-     (double-prim-term logic proof φ Γ `(∃≥ ,p ,q) `(∃≥ ,q ,p) p q)]))
+     (double-prim-term logic proof φ Γ `(∃≥ ,p ,q) `(∃> ,q ,p) p q)]))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; One
